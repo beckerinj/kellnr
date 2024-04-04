@@ -28,7 +28,6 @@ RUN cp /build/target/release/kellnr ./kellnr && \
 
 # These are things done in kellnr installer
 RUN sed -i "s/admin_pwd =.*/admin_pwd = \"$ADMINPWD\"/" ./config/default.toml && \
-  sed -i "s/admin_token =.*/admin_token = \"$AUTHTOKEN\"/" ./config/default.toml && \
-  sed -i "s,data_dir =.*,data_dir = \"$DIRECTORY\"," ./config/default.toml
+  sed -i "s/admin_token =.*/admin_token = \"$AUTHTOKEN\"/" ./config/default.toml
 
 CMD ["./kellnr"]
