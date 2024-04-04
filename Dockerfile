@@ -4,4 +4,6 @@ WORKDIR /kellnr
 
 COPY . .
 
-CMD ["cargo run --release"]
+RUN cargo build --release
+
+CMD ["./target/release/kellnr"]

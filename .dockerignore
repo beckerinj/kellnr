@@ -3,4 +3,5 @@
 .docker
 .idea
 .vscode
-.target
+target
+static
