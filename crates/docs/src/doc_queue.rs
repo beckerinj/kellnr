@@ -106,11 +106,18 @@ fn generate_docs(crate_path: impl AsRef<Path>) -> CargoResult<()> {
     let workspace = Workspace::new(&manifest_path, &config)?;
     let compile_opts = CompileOptions {
         cli_features: CliFeatures::new_all(true),
-        ..CompileOptions::new(&config, CompileMode::Doc { deps: false })?
+        ..CompileOptions::new(
+            &config,
+            CompileMode::Doc {
+                deps: false,
+                json: true,
+            },
+        )?
     };
     let options = DocOptions {
         open_result: false,
         compile_opts,
+        output_format: ops::OutputFormat::Json,
     };
     ops::doc(&workspace, &options)?;
     Ok(())
