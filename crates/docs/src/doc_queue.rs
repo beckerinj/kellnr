@@ -1,6 +1,6 @@
 use crate::compute_doc_url;
 use cargo::{
-    core::Workspace,
+    core::{compiler::MessageFormat, resolver::CliFeatures, Workspace},
     ops::{self, CompileOptions, DocOptions},
     util::command_prelude::CompileMode,
     CargoResult, Config,
@@ -104,15 +104,14 @@ fn generate_docs(crate_path: impl AsRef<Path>) -> CargoResult<()> {
     let manifest_path = crate_path.as_ref().join("Cargo.toml").canonicalize()?;
     let config = Config::default()?;
     let workspace = Workspace::new(&manifest_path, &config)?;
-    let mut compile_opts = CompileOptions::new(
-        &config,
-        CompileMode::Doc {
+    let mut compile_opts = CompileOptions {
+        cli_features: CliFeatures::new_all(true),
+        ..CompileOptions::new(&config, CompileMode::Doc {
             deps: false,
             json: true,
-        },
-    )?;
-    println!("using custom future incompat options");
-    compile_opts.build_config.future_incompat_report = false;
+        })?
+    };
+    compile_opts.build_config.message_format = MessageFormat::Short;
     let options = DocOptions {
         open_result: false,
         compile_opts,
