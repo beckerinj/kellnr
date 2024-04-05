@@ -104,17 +104,19 @@ fn generate_docs(crate_path: impl AsRef<Path>) -> CargoResult<()> {
     let manifest_path = crate_path.as_ref().join("Cargo.toml").canonicalize()?;
     let config = Config::default()?;
     let workspace = Workspace::new(&manifest_path, &config)?;
-    let compile_opts = CompileOptions::new(
+    let mut compile_opts = CompileOptions::new(
         &config,
         CompileMode::Doc {
             deps: false,
-            json: false,
+            json: true,
         },
     )?;
+    println!("using custom future incompat options");
+    compile_opts.build_config.future_incompat_report = false;
     let options = DocOptions {
         open_result: false,
         compile_opts,
-        output_format: ops::OutputFormat::Html,
+        output_format: ops::OutputFormat::Json,
     };
     ops::doc(&workspace, &options)?;
     Ok(())
