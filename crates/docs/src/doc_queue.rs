@@ -114,7 +114,7 @@ fn generate_docs(crate_path: impl AsRef<Path>) -> CargoResult<()> {
     let options = DocOptions {
         open_result: false,
         compile_opts,
-        output_format: ops::OutputFormat::Json,
+        output_format: ops::OutputFormat::Html,
     };
     ops::doc(&workspace, &options)?;
     Ok(())
